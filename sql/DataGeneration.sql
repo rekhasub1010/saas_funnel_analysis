@@ -8,3 +8,15 @@ SELECT
         ELSE 'Social Media'
     END
 FROM generate_series(1, 10000);
+
+INSERT INTO trials (user_id, trial_start_date, trial_end_date, activated)
+SELECT
+    user_id,
+    signup_date + (random() * 7)::INT,
+    signup_date + (random() * 7)::INT + 14,
+    CASE
+        WHEN random() < 0.6 THEN TRUE
+        ELSE FALSE
+    END
+FROM users
+WHERE random() < 0.65;
