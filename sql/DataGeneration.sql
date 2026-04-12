@@ -20,3 +20,21 @@ SELECT
     END
 FROM users
 WHERE random() < 0.65;
+
+INSERT INTO subscriptions (user_id, subscription_start, plan_type, churned)
+SELECT
+    user_id,
+    trial_end_date,
+    CASE
+        WHEN random() < 0.5 THEN 'Basic'
+        ELSE 'Pro'
+    END,
+    CASE
+        WHEN random() < 0.25 THEN TRUE
+        ELSE FALSE
+    END
+FROM trials
+WHERE
+    (activated = TRUE AND random() < 0.35)
+    OR
+    (activated = FALSE AND random() < 0.05);
